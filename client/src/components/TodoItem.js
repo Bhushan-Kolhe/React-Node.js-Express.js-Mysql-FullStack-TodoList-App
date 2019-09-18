@@ -5,7 +5,6 @@ export class TodoItem extends Component {
 
     GetTextStyle = () => {
         return {
-            textDecoration: this.props.todo.IsCompleted == 1 ? 'line-through' : 'none',
             margin: 'auto 0',
             width:'85%',
             maxWidth: '85%'
@@ -14,7 +13,6 @@ export class TodoItem extends Component {
 
     GetStyle = () => {
         return {
-            
             display: 'flex',
             width: '100%',
             flexDirection: 'row',
@@ -32,8 +30,7 @@ export class TodoItem extends Component {
         const {ID,Value} = this.props.todo;
         return (
             <div style={this.GetStyle()}>
-                <input className="styled-checkbox" type="checkbox" id={ID} onChange={this.props.MarkComplete.bind(this, ID)}></input>
-                <label for={ID} style={this.GetTextStyle()}><span>{this.props.todo.Value}</span></label>
+                <span style={this.GetTextStyle()}>{this.props.todo.Value}</span>
                 <button type="button" className="btn btn-light" onClick={this.props.DeleteTodo.bind(this, ID)}>X</button>
             </div>
         );

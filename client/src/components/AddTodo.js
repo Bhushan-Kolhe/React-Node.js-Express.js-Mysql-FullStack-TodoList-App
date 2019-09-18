@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 
 export class AddTodo extends Component {
 
@@ -8,8 +9,11 @@ export class AddTodo extends Component {
 
     onChange = (e) => this.setState({Value: e.target.value});
     onSubmitTodo = (e) => {
+        if(this.state.Value == "") return;
         this.props.addTodo(this.state.Value);
         this.setState({Value: ""});
+        const node = ReactDOM.findDOMNode(this);
+        node.childNodes[0].value = '';
     }
 
     render() {

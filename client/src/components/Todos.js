@@ -7,35 +7,24 @@ import axios from 'axios';
 export class Todos extends Component {
 
     state = {
-        todos: []
+        todos: [],
+        count: 0
     }
 
-    MarkComplete = (id) => {
-        this.state.todos.map(todo => {
-            if(todo.ID == id){
-                if(todo.IsCompleted == 1) {
-                    axios.get(`/MarkTodoCompleted?id=${id}&IsCompleted=0`).then(res => console.log(res));
-                }
-                else {
-                    axios.get(`/MarkTodoCompleted?id=${id}&IsCompleted=1`).then(res => console.log(res));
-                }
-            }
-        });
-        this.getTodos();
-
-    }
 
     DeleteTodo = (id) => {
         //this.setState( { todos: [...this.state.todos.filter(todo => todo.id != id)] })
-        console.log(id)
-        axios.get(`/DeleteTodo?id=${id}`).then(res => console.log(res));
-        this.getTodos();
+        axios.get(`/DeleteTodo?id=${id}`).then(res => console.log(res)).then(() => {
+            this.getTodos();
+        });
     }
 
     addTodo = (Val) => {
         
-        axios.get(`/AddTodo?todo='${Val}'&title='${this.props.todoTitles.Title}'`).then(res => console.log(res));
-        this.getTodos();
+        axios.get(`/AddTodo?todo='${Val}'&title='${this.props.todoTitles.Title}'`).then(res => console.log(res))
+        .then(() => {
+            this.getTodos();
+        });
     }
 
     componentDidMount(){
@@ -44,7 +33,11 @@ export class Todos extends Component {
     
     getTodos() {
         axios.get(`/GetTodos?title='${this.props.todoTitles.Title}'`)
-        .then(res => this.setState({ todos: res.data.data}));
+        .then(res => this.setState({ todos: res.data.data, count: res.data.data.length}))
+        .then(() =>{
+            if(this.state.count == 0)
+                this.props.getTitles();
+        });
     }
 
     render() {
@@ -53,7 +46,7 @@ export class Todos extends Component {
         };
 
         var todoItemList = this.state.todos.map((todo) => (
-            <TodoItem key={todo.ID} todo={todo} MarkComplete={this.MarkComplete}  DeleteTodo={this.DeleteTodo} />
+            <TodoItem key={todo.ID} todo={todo}  DeleteTodo={this.DeleteTodo} />
         ));
         return (
             <div className="card border-dark mb-3" style={TodoListStyle}>

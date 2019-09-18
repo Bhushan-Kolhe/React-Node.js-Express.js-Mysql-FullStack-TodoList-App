@@ -22,14 +22,13 @@ class App extends Component {
   }
 
   addTodoList= (title, todo) => {
-    axios.get(`/AddTodo?todo='${todo}'&title='${title}'`).then(res => console.log(res));
-    this.getTitles();
+    axios.get(`/AddTodo?todo='${todo}'&title='${title}'`).then(res => console.log(res)).then(() => this.getTitles());
   }
 
   render() {
     var appBody =
         this.state.todoTitles.map((todos) => (
-          <Todos key={uuid.v4()} todoTitles = {todos} />
+          <Todos key={uuid.v4()} todoTitles = {todos} getTitles = {this.getTitles.bind(this)} />
         ));
     return (
       <div className="body">

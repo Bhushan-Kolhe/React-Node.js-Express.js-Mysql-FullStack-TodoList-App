@@ -35,7 +35,7 @@ export class TodoList extends Component {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Title </span>
                             </div>
-                            <input type="text" className="form-control" maxlength="50" name="Title" placeholder="List Title..." value={this.state.Title} onChange={this.onChange} />
+                            <input type="text" className="form-control" maxLength="50" name="Title" placeholder="List Title..." value={this.state.Title} onChange={this.onChange} />
                             </div>
                         </li>
                         <li className="list-group-item">
